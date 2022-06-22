@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/controllers/auth_controller.dart';
 import 'package:flutter_ecommerce/models/product.dart';
 import 'package:flutter_ecommerce/utilities/app_assets.dart';
 import 'package:flutter_ecommerce/views/widgets/list_item_home.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -45,88 +47,102 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Stack(
-            alignment: AlignmentDirectional.bottomStart,
-            children: [
-              Image.network(
-                AppAssets.homePageTopBanner,
-                width: double.infinity,
-                height: size.height * 0.3,
-                fit: BoxFit.cover,
-              ),
-              Opacity(
-                opacity: 0.4,
-                child: Container(
+    return Consumer<AuthController>(
+        builder: (_, model, __) {
+      return SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Image.network(
+                  AppAssets.homePageTopBanner,
                   width: double.infinity,
                   height: size.height * 0.3,
-                  color: Colors.black,
+                  fit: BoxFit.cover,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 24,
-                ),
-                child: Text(
-                  'Street Clothes',
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                _buildRow(context,
-                    title: 'Sale', description: 'Supper Summer Sale!!'),
-                const SizedBox(
-                  height: 8,
-                ),
-                SizedBox(
-                  height: 300,
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: dummyProducts
-                        .map((e) => ListItemHome(product: e))
-                        .toList(),
+                Opacity(
+                  opacity: 0.4,
+                  child: Container(
+                    width: double.infinity,
+                    height: size.height * 0.3,
+                    color: Colors.black,
                   ),
                 ),
-                _buildRow(context,
-                    title: 'New', description: 'You have never seen theme!!'),
-                const SizedBox(
-                  height: 8,
+                Align(
+                  alignment: AlignmentDirectional.topEnd,
+                  child: IconButton(
+                      onPressed: () {
+                        model.signOut();
+                      },
+                      icon: const Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      )),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                SizedBox(
-                  height: 300,
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: dummyProducts
-                        .map((e) => ListItemHome(product: e))
-                        .toList(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 24,
+                  ),
+                  child: Text(
+                    'Street Clothes',
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                   ),
                 )
               ],
             ),
-          )
-        ],
-      ),
-    );
+            const SizedBox(
+              height: 24,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  _buildRow(context,
+                      title: 'Sale', description: 'Supper Summer Sale!!'),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      children: dummyProducts
+                          .map((e) => ListItemHome(product: e))
+                          .toList(),
+                    ),
+                  ),
+                  _buildRow(context,
+                      title: 'New', description: 'You have never seen theme!!'),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      children: dummyProducts
+                          .map((e) => ListItemHome(product: e))
+                          .toList(),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 }
