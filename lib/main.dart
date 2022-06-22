@@ -1,8 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/services/auth.dart';
 import 'package:flutter_ecommerce/utilities/router.dart';
 import 'package:flutter_ecommerce/utilities/routes.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -11,9 +16,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Ecommerce App',
-      theme: ThemeData(
+    return Provider<AuthBase>(
+      create: (_) => Auth(),
+      child: MaterialApp(
+        title: 'Ecommerce App',
+        theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xFFE5E5E5),
           primaryColor: Colors.red,
           inputDecorationTheme: InputDecorationTheme(
@@ -40,10 +47,12 @@ class MyApp extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.0),
               borderSide: const BorderSide(color: Colors.red),
             ),
-          )),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: onGenerateRoute,
-      initialRoute: AppRoutes.loginPageRoute,
+          ),
+        ),
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: onGenerateRoute,
+        initialRoute: AppRoutes.landingPageRoute,
+      ),
     );
   }
 }
