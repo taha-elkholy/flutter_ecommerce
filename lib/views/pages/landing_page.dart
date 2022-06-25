@@ -15,19 +15,29 @@ class LandingPage extends StatelessWidget {
     return StreamBuilder<User?>(
         stream: authBase.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            return ChangeNotifierProvider<AuthController>(
-              create: (_) => AuthController(authBase: authBase),
-              child: (snapshot.data == null)
-                  ? const AuthPage()
-                  : const BottomNavBar(),
-            );
+          switch(snapshot.connectionState){
+
+            case ConnectionState.none:
+              // TODO: Handle this case.
+              break;
+            case ConnectionState.waiting:
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            case ConnectionState.active:
+              return ChangeNotifierProvider<AuthController>(
+                create: (_) => AuthController(authBase: authBase),
+                child: (snapshot.data == null)
+                    ? const AuthPage()
+                    : const BottomNavBar(),
+              );
+            case ConnectionState.done:
+              // TODO: Handle this case.
+              break;
           }
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const SizedBox();
         });
   }
 }

@@ -71,17 +71,6 @@ class HomePage extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                Align(
-                  alignment: AlignmentDirectional.topEnd,
-                  child: IconButton(
-                      onPressed: () {
-                        model.signOut();
-                      },
-                      icon: const Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      )),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,

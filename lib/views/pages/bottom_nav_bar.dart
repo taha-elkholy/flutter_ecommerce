@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/views/pages/home_page.dart';
+import 'package:flutter_ecommerce/views/pages/profile_page.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -54,7 +55,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       const HomePage(),
       const HomePage(),
       const HomePage(),
-      const HomePage(),
+      const ProfilePage(),
     ];
   }
 
